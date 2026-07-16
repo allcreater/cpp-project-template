@@ -1,0 +1,109 @@
+﻿{
+  "version": 3,
+  "configurePresets": [
+    {
+        "name": "base",
+        "hidden": true,
+        "generator": "Ninja",
+        "binaryDir": "${sourceDir}/out/build/${presetName}",
+        "installDir": "${sourceDir}/out/install/${presetName}",
+        "cacheVariables": {
+            "CMAKE_POLICY_VERSION_MINIMUM": "4.2"
+        }
+    },
+    {
+      "name": "base-cl",
+      "inherits": "base",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl.exe",
+        "CMAKE_CXX_COMPILER": "cl.exe"
+      },
+      "environment": {
+        "CXXFLAGS": "$penv{CXXFLAGS} /W4 /Wall /external:W2 /external:anglebrackets"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "base-clang",
+      "inherits": "base",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++"
+      },
+      "environment": {
+        "CXXFLAGS": "$penv{CXXFLAGS}",
+        "PATH": "/usr/bin:$penv{PATH}"
+      }
+    },
+    {
+      "name": "base-gcc",
+      "inherits": "base",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_CXX_STDLIB_MODULES_JSON": "/usr/include/c++/16/libstdc++.modules.json",
+        "CMAKE_THREAD_LIBS_INIT": "-lpthread",
+        "Threads_FOUND": "TRUE"
+      },
+      "environment": {
+        "CXXFLAGS": "$penv{CXXFLAGS}",
+        "PATH": "/usr/bin:$penv{PATH}"
+      }
+    },
+    {
+      "name": "cl-x64-debug",
+      "displayName": "MSVC x64 Debug",
+      "inherits": "base-cl",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "cl-x64-release",
+      "displayName": "MSVC x64 Release",
+      "inherits": "base-cl",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "clang-x64-release",
+      "displayName": "Clang x64 Release",
+      "inherits": "base-clang",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "gcc-x64-release",
+      "displayName": "GCC x64 Release",
+      "inherits": "base-gcc",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ]
+}
