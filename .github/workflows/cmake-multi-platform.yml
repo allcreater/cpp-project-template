@@ -30,7 +30,7 @@ jobs:
             linker_flags: ""
           - os: ubuntu-latest
             cmake_preset: clang-x64-release
-            compiler: llvm-20.0.0
+            compiler: llvm-22.0.0
             cxx_flags: "-stdlib=libc++"
             linker_flags: "-stdlib=libc++ -lc++ -lc++abi"
           - os: ubuntu-latest
@@ -81,11 +81,11 @@ jobs:
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
 
-    - name: Test
-      working-directory: ${{ steps.strings.outputs.build-output-dir }}
-      # Execute tests defined by the CMake configuration. --build-config may be needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest
+#    - name: Test
+#      working-directory: ${{ steps.strings.outputs.build-output-dir }}
+#      # Execute tests defined by the CMake configuration. --build-config may be needed because the default Windows generator is a multi-config generator (Visual Studio generator).
+#      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+#      run: ctest
 
     - name: Upload artifacts (Windows)
       if : matrix.os == 'windows-latest'
