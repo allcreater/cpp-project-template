@@ -66,20 +66,10 @@ jobs:
     #     sudo apt-get update
     #     sudo apt-get install -y libgl1-mesa-dev libxi-dev libxcursor-dev
 
-    - name: Find libc++ module path (Ubuntu)
-      if: contains(matrix.os, 'ubuntu')
-      id: libcxx_path
-      shell: bash
-      run: |
-        # Find where libc++ headers are installed
-        LIBCXX_PATH=$(clang++ -print-resource-dir)/include/c++/v1
-        echo "Found libc++ at: $LIBCXX_PATH"
-        echo "path=$LIBCXX_PATH" >> "$GITHUB_OUTPUT"
-
     - name: Configure CMake
       run: >
         cmake --preset ${{ matrix.cmake_preset }}
-        -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"
+        -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"  ${{ case(contains(matrix.cmake_preset, 'clang'), format('-DCMAKE_CXX_STDLIB_MODULES_JSON={0}/libc++.modules.json', env.LLVM_LIBRARY_PATH), '')}}
         -DCMAKE_EXE_LINKER_FLAGS="${{ matrix.linker_flags }}"
         -DCMAKE_SHARED_LINKER_FLAGS="${{ matrix.linker_flags }}"
         -B ${{ steps.strings.outputs.build-output-dir }}
