@@ -16,8 +16,6 @@
       "inherits": "base",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "cl.exe",
-        "CMAKE_CXX_COMPILER": "cl.exe"
       },
       "environment": {
         "CXXFLAGS": "$penv{CXXFLAGS} /W4 /Wall /external:W2 /external:anglebrackets"
@@ -33,8 +31,7 @@
       "inherits": "base",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang",
-        "CMAKE_CXX_COMPILER": "clang++"
+
       },
       "environment": {
         "CXXFLAGS": "$penv{CXXFLAGS}",
@@ -46,8 +43,6 @@
       "inherits": "base",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C_COMPILER": "gcc",
-        "CMAKE_CXX_COMPILER": "g++",
         "CMAKE_CXX_STDLIB_MODULES_JSON": "/usr/include/c++/16/libstdc++.modules.json",
         "CMAKE_THREAD_LIBS_INIT": "-lpthread",
         "Threads_FOUND": "TRUE"
