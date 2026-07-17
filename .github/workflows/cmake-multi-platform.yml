@@ -31,8 +31,8 @@ jobs:
           - os: ubuntu-latest
             cmake_preset: clang-x64-release
             compiler: llvm-22.0.0
-            cxx_flags: "-stdlib=libc++"
-            linker_flags: "-stdlib=libc++ -lc++ -lc++abi"
+            cxx_flags: "-fmodules -stdlib=libc++"
+            linker_flags: "-fmodules -stdlib=libc++ -lc++ -lc++abi"
           - os: ubuntu-latest
             cmake_preset: gcc-x64-release
             compiler: gcc-16
