@@ -30,7 +30,7 @@ jobs:
             linker_flags: ""
           - os: ubuntu-latest
             cmake_preset: clang-x64-release
-            compiler: llvm-22.0.0
+            compiler: llvm-21.0.0
             cxx_flags: "-fmodules -stdlib=libc++"
             linker_flags: "-fmodules -stdlib=libc++ -lc++ -lc++abi"
           - os: ubuntu-latest
@@ -69,11 +69,12 @@ jobs:
     - name: Configure CMake
       run: >
         cmake --preset ${{ matrix.cmake_preset }}
-        -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"  ${{ case(contains(matrix.cmake_preset, 'clang'), format('-DCMAKE_CXX_STDLIB_MODULES_JSON={0}/libc++.modules.json', env.LLVM_LIBRARY_PATH), '')}}
+        -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"
         -DCMAKE_EXE_LINKER_FLAGS="${{ matrix.linker_flags }}"
         -DCMAKE_SHARED_LINKER_FLAGS="${{ matrix.linker_flags }}"
         -B ${{ steps.strings.outputs.build-output-dir }}
         -S ${{ github.workspace }}
+        ${{ case(contains(matrix.cmake_preset, 'clang'), format('-DCMAKE_CXX_STDLIB_MODULES_JSON={0}/libc++.modules.json', env.LLVM_LIBRARY_PATH), case(contains(matrix.cmake_preset, 'gcc'), '-DCMAKE_CXX_STDLIB_MODULES_JSON=/usr/include/c++/16/libstdc++.modules.json', ''))}}
 
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
