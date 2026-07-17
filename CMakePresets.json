@@ -32,10 +32,6 @@
       "hidden": true,
       "cacheVariables": {
 
-      },
-      "environment": {
-        "CXXFLAGS": "$penv{CXXFLAGS}",
-        "PATH": "/usr/bin:$penv{PATH}"
       }
     },
     {
@@ -43,13 +39,6 @@
       "inherits": "base",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_STDLIB_MODULES_JSON": "/usr/include/c++/16/libstdc++.modules.json",
-        "CMAKE_THREAD_LIBS_INIT": "-lpthread",
-        "Threads_FOUND": "TRUE"
-      },
-      "environment": {
-        "CXXFLAGS": "$penv{CXXFLAGS}",
-        "PATH": "/usr/bin:$penv{PATH}"
       }
     },
     {
