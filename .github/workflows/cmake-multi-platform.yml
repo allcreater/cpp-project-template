@@ -51,23 +51,20 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/out/build/${{ matrix.cmake_preset }}" >> "$GITHUB_OUTPUT"
 
-    - name: Enable Developer Command Prompt (Windows)
-      if: matrix.os == 'windows-latest'
-      uses: ilammy/msvc-dev-cmd@v1.13.0
-
     - name: Setup C++ environment
-      if: matrix.os == 'ubuntu-latest'
       uses: aminya/setup-cpp@v1
       with:
         compiler: ${{ matrix.compiler }}
-        cmake: 4.2.0
+        cmake: 4.3.0
         ninja: 1.13.2
+        vcvarsall: ${{ contains(matrix.os, 'windows' )}}
 
-    - name: Install dependencies (Ubuntu)
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libgl1-mesa-dev libxi-dev libxcursor-dev
+
+    # - name: Install dependencies (Ubuntu)
+    #   if: matrix.os == 'ubuntu-latest'
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get install -y libgl1-mesa-dev libxi-dev libxcursor-dev
 
     - name: Configure CMake
       run: >
