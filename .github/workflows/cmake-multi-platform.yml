@@ -69,6 +69,7 @@ jobs:
     - name: Configure CMake
       run: >
         cmake --preset ${{ matrix.cmake_preset }}
+         ${{ case(contains(matrix.cmake_preset, 'clang'), '-DCMAKE_C_COMPILER=clang-22 -DCMAKE_CXX_COMPILER=clang++-22', '')}}
         -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"
         -DCMAKE_EXE_LINKER_FLAGS="${{ matrix.linker_flags }}"
         -DCMAKE_SHARED_LINKER_FLAGS="${{ matrix.linker_flags }}"
