@@ -31,7 +31,13 @@
       "inherits": "base",
       "hidden": true,
       "cacheVariables": {
-
+        "CMAKE_CXX_FLAGS": "-stdlib=libc++",
+        "CMAKE_EXE_LINKER_FLAGS": "-stdlib=libc++ -lc++ -lc++abi",
+        "CMAKE_SHARED_LINKER_FLAGS": "-stdlib=libc++ -lc++ -lc++abi"
+      },
+      "environment": {
+        "CXXFLAGS": "",
+        "PATH": "/usr/bin:$penv{PATH}"
       }
     },
     {
@@ -39,6 +45,9 @@
       "inherits": "base",
       "hidden": true,
       "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "",
+        "CMAKE_EXE_LINKER_FLAGS": "",
+        "CMAKE_SHARED_LINKER_FLAGS": ""
       }
     },
     {
