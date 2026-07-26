@@ -44,11 +44,22 @@ jobs:
         ninja: 1.13.2
         vcvarsall: ${{ contains(inputs.os, 'windows') }}
 
-    - name: Configure CMake
+    - name: Configure CMake (Emscripten)
+      if: inputs.use_emcmake == true
       run: >
-        ${{ inputs.use_emcmake && 'emcmake' || '' }} cmake --preset ${{ inputs.cmake_preset }}
+        ${{ inputs.use_emcmake && 'emcmake' || '' }}
+        cmake --preset ${{ inputs.cmake_preset }}
+        -B ${{ steps.strings.outputs.build-output-dir }}
+        -S .
+
+    - name: Configure CMake
+      if: inputs.use_emcmake == false
+      run: >
+        cmake --preset ${{ inputs.cmake_preset }}
         -B ${{ steps.strings.outputs.build-output-dir }}
         -S ${{ github.workspace }}
+        ${{ case(contains(inputs.cmake_preset, 'clang'), format('-DCMAKE_CXX_STDLIB_MODULES_JSON={0}/libc++.modules.json', env.LLVM_LIBRARY_PATH), '')}}
+
 
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
