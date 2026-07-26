@@ -111,14 +111,11 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/out/build/emscripten-wasm-release" >> "$GITHUB_OUTPUT"
 
-    - name: Install dependencies
-      run: |
-        apt-get update
-        apt-get install -y ninja-build python3-venv
-        python3 -m venv .venv
-        . .venv/bin/activate pip install --upgrade pip pip install --no-cache-dir cmake==4.4.0
-        echo "${{ github.workspace }}/.venv/bin" >> $GITHUB_PATH
-
+    - name: Setup C++ environment
+      uses: aminya/setup-cpp@v1
+      with:
+        cmake: 4.4.0
+        ninja: 1.13.2
 
     - name: Configure CMake
       run: >
