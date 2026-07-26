@@ -1,5 +1,3 @@
-# This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
-# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
 name: CMake on multiple platforms
 
 on:
@@ -87,7 +85,7 @@ jobs:
 #      run: ctest
 
     - name: Upload artifacts (Windows)
-      if : matrix.os == 'windows-latest'
+      if: matrix.os == 'windows-latest'
       uses: actions/upload-artifact@v6
       with:
         name: windows-binaries-${{ matrix.cmake_preset }}
@@ -133,5 +131,5 @@ jobs:
       with:
         name: emscripten-wasm-binaries
         path: |
-            ${{ steps.strings.outputs.build-output-dir }}/src/MainModule*
+            ${{ steps.strings.outputs.build-output-dir }}/src
             !${{ steps.strings.outputs.build-output-dir }}/src/cmake*
