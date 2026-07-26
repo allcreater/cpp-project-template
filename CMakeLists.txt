@@ -16,7 +16,7 @@ else()
     message("CMake version is too old to support C++ modules. Please update CMake to at least 4.2.0")
 endif()
 
-message("Cmake version is ${CMAKE_VERSION}")
+message("Cmake version is ${CMAKE_VERSION}, standard library is ${CMAKE_CXX_STANDARD_LIBRARY}")
 
 project(ModernCppProject
     VERSION 0.0.1
