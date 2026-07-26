@@ -88,7 +88,7 @@ jobs:
 
     - name: Upload artifacts (Windows)
       if : matrix.os == 'windows-latest'
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: windows-binaries-${{ matrix.cmake_preset }}
         path: |
@@ -101,7 +101,7 @@ jobs:
       image: emscripten/emsdk:latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         submodules: true
 
@@ -124,10 +124,12 @@ jobs:
         -S .
 
     - name: Build
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
+      run: | 
+        cmake --build ${{ steps.strings.outputs.build-output-dir }}
+        ls -a ${{ steps.strings.outputs.build-output-dir }}/src
 
     - name: Upload artifacts (Emscripten WebAssembly)
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: emscripten-wasm-binaries
         path: |
