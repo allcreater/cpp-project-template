@@ -88,6 +88,16 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
+    },
+    {
+      "name": "emscripten-wasm-release",
+      "displayName": "Emscripten WebAssembly Release",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
+        "CMAKE_BUILD_TYPE": "Release",
+        "EMSCRIPTEN": "ON"
+      }
     }
   ]
 }

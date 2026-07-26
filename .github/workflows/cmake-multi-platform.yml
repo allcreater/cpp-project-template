@@ -7,9 +7,10 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+  workflow_dispatch:
 
 jobs:
-  build:
+  build-native:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -74,7 +75,7 @@ jobs:
         -DCMAKE_SHARED_LINKER_FLAGS="${{ matrix.linker_flags }}"
         -B ${{ steps.strings.outputs.build-output-dir }}
         -S ${{ github.workspace }}
-        ${{ case(contains(matrix.cmake_preset, 'clang'), format('-DCMAKE_CXX_STDLIB_MODULES_JSON={0}/libc++.modules.json', env.LLVM_LIBRARY_PATH), case(contains(matrix.cmake_preset, 'gcc'), '-DCMAKE_CXX_STDLIB_MODULES_JSON=/usr/include/c++/16/libstdc++.modules.json', ''))}}
+#        ${{ case(contains(matrix.cmake_preset, 'clang'), format('-DCMAKE_CXX_STDLIB_MODULES_JSON={0}/libc++.modules.json', env.LLVM_LIBRARY_PATH), case(contains(matrix.cmake_preset, 'gcc'), '-DCMAKE_CXX_STDLIB_MODULES_JSON=/usr/include/c++/16/libstdc++.modules.json', ''))}}
 
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
@@ -90,6 +91,39 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: windows-binaries-${{ matrix.cmake_preset }}
+        path: |
+            ${{ steps.strings.outputs.build-output-dir }}/src
+            !${{ steps.strings.outputs.build-output-dir }}/src/cmake*
+
+  build-emscripten:
+    runs-on: ubuntu-latest
+    container:
+      image: emscripten/emsdk:latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Set reusable strings
+      id: strings
+      shell: bash
+      run: |
+        echo "build-output-dir=${{ github.workspace }}/out/build/emscripten-wasm-release" >> "$GITHUB_OUTPUT"
+
+    - name: Configure CMake
+      run: >
+        cmake --preset emscripten-wasm-release
+        -B ${{ steps.strings.outputs.build-output-dir }}
+        -S ${{ github.workspace }}
+
+    - name: Build
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
+
+    - name: Upload artifacts (Emscripten WebAssembly)
+      uses: actions/upload-artifact@v4
+      with:
+        name: emscripten-wasm-binaries
         path: |
             ${{ steps.strings.outputs.build-output-dir }}/src
             !${{ steps.strings.outputs.build-output-dir }}/src/cmake*
