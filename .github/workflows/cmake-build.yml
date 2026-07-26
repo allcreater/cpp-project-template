@@ -47,8 +47,8 @@ jobs:
     - name: Configure CMake (Emscripten)
       if: inputs.use_emcmake == true
       run: >
-        ${{ inputs.use_emcmake && 'emcmake' || '' }}
-        cmake --preset ${{ inputs.cmake_preset }}
+        emcmake cmake --preset ${{ inputs.cmake_preset }}
+        -DCMAKE_TOOLCHAIN_FILE="/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
         -B ${{ steps.strings.outputs.build-output-dir }}
         -S .
 

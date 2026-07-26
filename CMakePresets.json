@@ -45,9 +45,6 @@
       "inherits": "base",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "",
-        "CMAKE_EXE_LINKER_FLAGS": "",
-        "CMAKE_SHARED_LINKER_FLAGS": ""
       }
     },
     {
@@ -103,7 +100,6 @@
       "displayName": "Emscripten WebAssembly Release",
       "inherits": "base",
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
         "CMAKE_BUILD_TYPE": "Release",
         "EMSCRIPTEN": "ON"
       }
