@@ -113,9 +113,9 @@ jobs:
 
     - name: Configure CMake
       run: >
-        cmake --preset emscripten-wasm-release
+        emcmake cmake --preset emscripten-wasm-release
         -B ${{ steps.strings.outputs.build-output-dir }}
-        -S ${{ github.workspace }}
+        -S .
 
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
