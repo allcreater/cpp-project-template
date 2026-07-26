@@ -60,10 +60,11 @@ jobs:
 
     - name: Configure CMake
       run: >
+        echo $(${CXX} -print-file-name=libstdc++.modules.json) &&  
         cmake --preset ${{ matrix.cmake_preset }}
         -B ${{ steps.strings.outputs.build-output-dir }}
         -S ${{ github.workspace }}
-        ${{ case(contains(matrix.cmake_preset, 'clang'), format('-DCMAKE_CXX_STDLIB_MODULES_JSON={0}/libc++.modules.json', env.LLVM_LIBRARY_PATH), case(contains(matrix.cmake_preset, 'gcc'), '-DCMAKE_CXX_STDLIB_MODULES_JSON=/usr/include/c++/16/libstdc++.modules.json', ''))}}
+        ${{ case(contains(matrix.cmake_preset, 'clang'), format('-DCMAKE_CXX_STDLIB_MODULES_JSON={0}/libc++.modules.json', env.LLVM_LIBRARY_PATH), case(contains(matrix.cmake_preset, 'gcc'), '', ''))}}
 
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
