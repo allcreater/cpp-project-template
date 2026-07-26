@@ -133,5 +133,5 @@ jobs:
       with:
         name: emscripten-wasm-binaries
         path: |
-            ${{ steps.strings.outputs.build-output-dir }}/src
+            ${{ steps.strings.outputs.build-output-dir }}/src/MainModule*
             !${{ steps.strings.outputs.build-output-dir }}/src/cmake*
