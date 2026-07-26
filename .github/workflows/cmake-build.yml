@@ -1,0 +1,62 @@
+name: CMake Build
+
+on:
+  workflow_call:
+    inputs:
+      cmake_preset:
+        required: true
+        type: string
+      compiler:
+        required: false
+        type: string
+      os:
+        required: false
+        type: string
+        default: ubuntu-latest
+      use_emcmake:
+        required: false
+        type: boolean
+        default: false
+      build_container:
+        required: false
+        type: string
+
+jobs:
+  build:
+    runs-on: ${{ inputs.os }}
+    container: ${{ inputs.build_container != '' && inputs.build_container || null }}
+    
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        submodules: true
+
+    - name: Set reusable strings
+      id: strings
+      shell: bash
+      run: echo "build-output-dir=${{ github.workspace }}/out/build/${{ inputs.cmake_preset }}" >> "$GITHUB_OUTPUT"
+
+    - name: Setup C++ environment
+      uses: aminya/setup-cpp@v1
+      with:
+        compiler: ${{ inputs.compiler != '' && inputs.compiler || null }}
+        cmake: 4.4.0
+        ninja: 1.13.2
+        vcvarsall: ${{ contains(inputs.os, 'windows') }}
+
+    - name: Configure CMake
+      run: >
+        ${{ inputs.use_emcmake && 'emcmake' || '' }} cmake --preset ${{ inputs.cmake_preset }}
+        -B ${{ steps.strings.outputs.build-output-dir }}
+        -S ${{ github.workspace }}
+
+    - name: Build
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: build-${{ inputs.cmake_preset }}
+        path: |
+          ${{ steps.strings.outputs.build-output-dir }}/src
+          !${{ steps.strings.outputs.build-output-dir }}/src/cmake*
