@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 4.2)
 
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED OΝ)
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 set(CMAKE_CXX_MODULE_STD ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -16,12 +16,12 @@ else()
     message("CMake version is too old to support C++ modules. Please update CMake to at least 4.2.0")
 endif()
 
-message("Cmake version is ${CMAKE_VERSION}, standard library is ${CMAKE_CXX_STANDARD_LIBRARY}")
-
 project(ModernCppProject
     VERSION 0.0.1
     LANGUAGES CXX
 )
+
+message("Cmake version is ${CMAKE_VERSION}, standard library is ${CMAKE_CXX_STANDARD_LIBRARY}")
 
 add_subdirectory("3rd_party/")
 add_subdirectory("src/")
