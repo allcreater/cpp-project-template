@@ -4,4 +4,9 @@ add_executable (MainModule
     "main.cpp"
 )
 
-target_compile_features(MainModule PRIVATE cxx_std_23 )
+set_target_properties(MainModule PROPERTIES
+        CXX_STANDARD 23
+        CXX_STANDARD_REQUIRED ΟΝ
+        CXX_MODULE_STD ON
+        CXX_EXTENSIONS OFF
+)
