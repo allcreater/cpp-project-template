@@ -1,10 +1,7 @@
 cmake_minimum_required (VERSION 4.2)
 
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED OΝ)
-set(CMAKE_CXX_SCAN_FOR_MODULES ON)
-set(CMAKE_CXX_MODULE_STD ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_MODULE_STD ON)
 
 if(CMAKE_VERSION VERSION_GREATER_EQUAL "4.4.0")
     set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "f35a9ac6-8463-4d38-8eec-5d6008153e7d")
@@ -20,6 +17,9 @@ project(ModernCppProject
     VERSION 0.0.1
     LANGUAGES CXX
 )
+
+# Seems that some compilers wants to have CMAKE_CXX_MODULE_STD enabled before the project declaration, let's disable it back
+set(CMAKE_CXX_MODULE_STD OFF)
 
 message("Cmake version is ${CMAKE_VERSION}, standard library is ${CMAKE_CXX_STANDARD_LIBRARY}")
 
