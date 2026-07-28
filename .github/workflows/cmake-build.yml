@@ -66,3 +66,4 @@ jobs:
         path: |
           build_dir/src
           !build_dir/src/cmake*
+          !build_dir/src/CMakeFiles
